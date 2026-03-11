@@ -10,15 +10,23 @@ url = "https://www.mixvale.com.br/?s=gta+vi"
 res = requests.get(url)
 soup = BeautifulSoup(res.text, "html.parser")
 
-article = soup.find("h2")
+articles = soup.find_all("a")
 
-title = article.text
-link = article.find("a")["href"]
+for article in articles:
 
-title_he = GoogleTranslator(source='auto', target='iw').translate(title)
+    title = article.get_text()
 
-message = {
-    "content": f"🎮 חדשות GTA VI\n\n{title_he}\n\n{link}"
-}
+    if "GTA" in title:
 
-requests.post(WEBHOOK, json=message)
+        link = article.get("href")
+
+        title_he = GoogleTranslator(source='auto', target='iw').translate(title)
+
+        message = {
+            "username": "GTA VI News",
+            "content": f"🎮 חדשות GTA VI\n\n{title_he}\n\n{link}"
+        }
+
+        requests.post(WEBHOOK, json=message)
+
+        break
