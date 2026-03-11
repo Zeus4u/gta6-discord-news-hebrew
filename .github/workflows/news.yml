@@ -1,0 +1,25 @@
+name: GTA VI News
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: install packages
+        run: pip install -r requirements.txt
+
+      - name: run bot
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: python bot.py
