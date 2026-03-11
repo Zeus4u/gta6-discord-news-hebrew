@@ -3,6 +3,7 @@ name: GTA VI News
 on:
   schedule:
     - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 jobs:
   run:
